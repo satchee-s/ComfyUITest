@@ -1,0 +1,227 @@
+{
+  "3": {
+    "inputs": {
+      "text": "Pprompt, far shot, 18k, best resolution, cartoonistic, different head pose",
+      "clip": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "4": {
+    "inputs": {
+      "text": "(worst quality, low quality:1.4, do not include text), black and white",
+      "clip": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "5": {
+    "inputs": {
+      "image_path": "C:/Users/Lapto/Documents/GitHub/ComfyUI/input/capture.jpg"
+    },
+    "class_type": "LoadWebcamImage",
+    "_meta": {
+      "title": "Load Webcam Image"
+    }
+  },
+  "6": {
+    "inputs": {
+      "stop_at_clip_layer": -1,
+      "clip": [
+        "9",
+        1
+      ]
+    },
+    "class_type": "CLIPSetLastLayer",
+    "_meta": {
+      "title": "CLIP Set Last Layer"
+    }
+  },
+  "8": {
+    "inputs": {
+      "enabled": true,
+      "swap_model": "inswapper_128.onnx",
+      "facedetection": "retinaface_mobile0.25",
+      "face_restore_model": "GFPGANv1.4.pth",
+      "face_restore_visibility": 1,
+      "codeformer_weight": 1,
+      "detect_gender_input": "no",
+      "detect_gender_source": "no",
+      "input_faces_index": "0",
+      "source_faces_index": "0",
+      "console_log_level": 1,
+      "input_image": [
+        "24",
+        0
+      ],
+      "source_image": [
+        "5",
+        0
+      ],
+      "face_boost": [
+        "18",
+        0
+      ]
+    },
+    "class_type": "ReActorFaceSwap",
+    "_meta": {
+      "title": "ReActor 🌌 Fast Face Swap"
+    }
+  },
+  "9": {
+    "inputs": {
+      "lora_name": "AniVerse_flux_lora_01.safetensors",
+      "strength_model": 1,
+      "strength_clip": 1,
+      "model": [
+        "10",
+        0
+      ],
+      "clip": [
+        "10",
+        1
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "Load LoRA"
+    }
+  },
+  "10": {
+    "inputs": {
+      "ckpt_name": "tertiumSDXLTurbo_v10.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Load Checkpoint"
+    }
+  },
+  "18": {
+    "inputs": {
+      "enabled": true,
+      "boost_model": "GFPGANv1.4.pth",
+      "interpolation": "Bicubic",
+      "visibility": 1,
+      "codeformer_weight": 0.5,
+      "restore_with_main_after": false
+    },
+    "class_type": "ReActorFaceBoost",
+    "_meta": {
+      "title": "ReActor 🌌 Face Booster"
+    }
+  },
+  "24": {
+    "inputs": {
+      "noise_seed": 855272163691448,
+      "steps": 3,
+      "cfg": 1.5,
+      "base_ratio": 1,
+      "denoise": 1,
+      "scaled_width": 512,
+      "scaled_height": 512,
+      "noise_offset": 1,
+      "refiner_strength": 0.5000000000000001,
+      "softness": 0,
+      "base_model": [
+        "10",
+        0
+      ],
+      "base_positive": [
+        "3",
+        0
+      ],
+      "base_negative": [
+        "4",
+        0
+      ],
+      "refiner_model": [
+        "9",
+        0
+      ],
+      "refiner_positive": [
+        "3",
+        0
+      ],
+      "refiner_negative": [
+        "4",
+        0
+      ],
+      "image": [
+        "5",
+        0
+      ],
+      "vae": [
+        "10",
+        2
+      ],
+      "sampler_name": [
+        "26",
+        0
+      ],
+      "scheduler": [
+        "26",
+        1
+      ]
+    },
+    "class_type": "SeargeSDXLImage2ImageSampler2",
+    "_meta": {
+      "title": "Image2Image Sampler v2 (Searge)"
+    }
+  },
+  "26": {
+    "inputs": {
+      "sampler_name": "dpmpp_3m_sde_gpu",
+      "scheduler": "sgm_uniform"
+    },
+    "class_type": "SeargeSamplerInputs",
+    "_meta": {
+      "title": "Sampler Settings"
+    }
+  },
+  "29": {
+    "inputs": {
+      "enabled": true,
+      "images": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "SeargePreviewImage",
+    "_meta": {
+      "title": "SeargePreviewImage"
+    }
+  },
+  "32": {
+    "inputs": {
+      "enabled": false,
+      "images": [
+        "24",
+        0
+      ]
+    },
+    "class_type": "SeargePreviewImage",
+    "_meta": {
+      "title": "SeargePreviewImage"
+    }
+  },
+  "33": {
+    "inputs": {
+      "image": "photo_20250303_151445.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  }
+}
