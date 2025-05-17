@@ -3,14 +3,17 @@ import os
 import qrcode
 
 app = Flask(__name__)
-UPLOAD_FOLDER = 'C:\\Users\\User\\Documents\\Uploads'
-QR_FOLDER = 'C:\\Users\\User\\Documents\\Uploads\\QRcodes'
+
+# -- Configuration --
+UPLOAD_FOLDER = r'C:\Users\Lapto\Downloads\ComfyUITest 12\ComfyUITest\Assets\StreamingAssets\Uploads'
+QR_FOLDER     = r'C:\Users\Lapto\Downloads\ComfyUITest 12\ComfyUITest\Assets\StreamingAssets\QRCode'
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
-if not os.path.exists(QR_FOLDER):
-    os.makedirs(QR_FOLDER)
+# ensure folders exist
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(QR_FOLDER, exist_ok=True)
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -19,23 +22,25 @@ def upload_file():
     file = request.files['file']
     if file.filename == '':
         return 'No selected file', 400
-    if file:
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-        file.save(file_path)
 
-        qr_code_path = generate_qr_code(file.filename)
-        return jsonify({
-            "url": f"http://192.168.1.246:5000/uploads/{file.filename}",  # Update with your local IP
-            "qr_code": qr_code_path
-        })
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    file.save(file_path)
+
+    qr_code_path = generate_qr_code(file.filename)
+    return jsonify({
+        "url":     f"http://192.168.0.1825000/uploads/{file.filename}",  # Update with your local IP
+        "qr_code": qr_code_path
+    })
+
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
+
 def generate_qr_code(filename):
-    url = f"http://192.168.1.246:5000/uploads/{filename}"  # Update with your local IP
-    qr_code_path = os.path.join(QR_FOLDER, f"{filename}.png")
+    url           = f"http://192.168.0.182:5000/uploads/{filename}"  # Update with your local IP
+    qr_code_path  = os.path.join(QR_FOLDER, f"{filename}.png")
 
     qr = qrcode.QRCode(
         version=1,
@@ -51,5 +56,10 @@ def generate_qr_code(filename):
 
     return qr_code_path
 
+
 if __name__ == '__main__':
+    # run with debugging when executed directly
     app.run(host='0.0.0.0', port=5000, debug=True)
+else:
+    # if imported, still enable Flask debug mode
+    app.debug = True

@@ -2,16 +2,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
+using System.Xml.Linq;
 
 public class DeviceCamera : MonoBehaviour
 {
     [SerializeField] string fileName = "capture.jpg";
-    [SerializeField] string filePath = "C:\\Users\\Lapto\\Documents\\GitHub\\ComfyUI\\input";
+    [SerializeField] string filePath = "C:\\Users\\fajel\\Desktop\\Webcam Image";
 
     [SerializeField] RawImage cameraImagePreview;
-
     private DateTime lastWriteTime;
 
+    private void Start()
+    {
+        //filePath = "C:\\Users\\Lapto\\Documents\\GitHub\\ComfyUI\\custom_nodes\\comfyui_toyxyz_test_nodes\\CaptureCam\\captured_frames";
+        filePath = "C:\\Users\\fajel\\Desktop\\Webcam Image\\";
+    }
     private void Update()
     {
         CheckForUpdates();
@@ -33,7 +39,7 @@ public class DeviceCamera : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Image file not found: " + fullPath);
+            //Debug.LogError("Image file not found: " + fullPath);
         }
     }
 

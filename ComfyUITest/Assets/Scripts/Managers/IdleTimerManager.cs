@@ -31,12 +31,12 @@ public class IdleTimerManager : MonoBehaviour
     {
         currTimer -= Time.deltaTime;
 
-        Debug.Log(currTimer);
+        //Debug.Log(currTimer);
 
         if (currTimer <= 0)
         {
             currTimer = 0;
-            UIManagerPhotobooth.Instance.ActivateIdleScreen();
+            //UIManagerPhotobooth.Instance.ActivateIdleScreen();
         }
     }
 }

@@ -15,8 +15,11 @@ public class ResponseData
 public class ComfyPromptCtr : MonoBehaviour
 {
     [SerializeField] GenderManager genderManager;
+    [SerializeField] RandomValueGenerator m_randomvalue;
 
     string singlePromptJson;
+    string filePathSingle = Path.Combine(Application.streamingAssetsPath, "AIImageSingle.json");
+    [SerializeField] string m_currentPrompt;
 
     private void Start()
     {
@@ -25,8 +28,8 @@ public class ComfyPromptCtr : MonoBehaviour
 
     private void LoadPromptsJson()
     {
-        string filePathSingle = Path.Combine(Application.streamingAssetsPath, "SingleAIImage.json");
-
+        //filePathSingle = Path.Combine(Application.streamingAssetsPath, "SingleAIImage.json");
+        string filePathSingle = Path.Combine(Application.streamingAssetsPath, "AIImageSingle2.json");
         // For standalone platforms (Windows, macOS, etc.)
         if (File.Exists(filePathSingle))
         {
@@ -40,10 +43,10 @@ public class ComfyPromptCtr : MonoBehaviour
 
     public void QueuePrompt()
     {
-        if (ModeSwitchManager.Instance.GetState())
-        {
-            UIManagerPhotobooth.Instance.PrepareRenderedPhoto();
-        }
+        //if (ModeSwitchManager.Instance.GetState())
+        //{
+        //    UIManagerPhotobooth.Instance.PrepareRenderedPhoto();
+        //}
         StartCoroutine(QueuePromptCoroutine());
     }
 
@@ -58,7 +61,8 @@ public class ComfyPromptCtr : MonoBehaviour
         }
 
         string promptText = GeneratePromptJson();
-        promptText = promptText.Replace("Pprompt", CheckIfInputFieldIsEmpty());
+        promptText = promptText.Replace("Pprompt", m_currentPrompt);
+        promptText = promptText.Replace("nse", m_randomvalue.GenerateRandomValue(1000000,5000000));
 
         UnityWebRequest request = new UnityWebRequest(url, "POST");
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(promptText);
@@ -86,17 +90,23 @@ public class ComfyPromptCtr : MonoBehaviour
         string tempPrompt = genderManager.GetIsMale() ? "GTA, Male" : "GTA, Female";
         if (UIManagerPhotobooth.Instance.GetPromptInputFieldText() != string.Empty)
         {
-            Debug.Log(genderManager.GetIsMale());
-            if (genderManager.GetIsMale())
-            {
-                tempPrompt = ($"{UIManagerPhotobooth.Instance.GetPromptInputFieldText()}, Male");
-            }
-            else
-            {
-                tempPrompt = ($"{UIManagerPhotobooth.Instance.GetPromptInputFieldText()}, Female");
-            }
+            //Debug.Log(genderManager.GetIsMale());
+            //if (genderManager.GetIsMale())
+            //{
+            //    tempPrompt = ($"{UIManagerPhotobooth.Instance.GetPromptInputFieldText()}, Male");
+            //}
+            //else
+            //{
+            //    tempPrompt = ($"{UIManagerPhotobooth.Instance.GetPromptInputFieldText()}, Female");
+            //}
         }
         return tempPrompt;
+    }
+
+    public void SetPrompt(string promptText)
+    {
+        string gender=genderManager.GetIsMale()?",Male":"Female";
+        m_currentPrompt = $"{promptText},{gender}";
     }
 
     private string GeneratePromptJson()

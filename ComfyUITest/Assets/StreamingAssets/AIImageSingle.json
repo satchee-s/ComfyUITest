@@ -1,0 +1,745 @@
+{
+  "last_node_id": 38,
+  "last_link_id": 42,
+  "nodes": [
+    {
+      "id": 4,
+      "type": "CLIPTextEncode",
+      "pos": [
+        1345,
+        460
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 23
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            32,
+            35
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "(country flags, worst quality, three hands, low quality:1.4, text, black and white, distorted face, animals, face mask, pixelated, no full body shot, gold)"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "CLIPSetLastLayer",
+      "pos": [
+        930,
+        130
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 24
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            22,
+            23
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPSetLastLayer"
+      },
+      "widgets_values": [
+        -1
+      ]
+    },
+    {
+      "id": 8,
+      "type": "ReActorFaceSwap",
+      "pos": [
+        2335.60009765625,
+        130
+      ],
+      "size": [
+        315,
+        358
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "input_image",
+          "type": "IMAGE",
+          "link": 25
+        },
+        {
+          "name": "source_image",
+          "type": "IMAGE",
+          "shape": 7,
+          "link": 26
+        },
+        {
+          "name": "face_model",
+          "type": "FACE_MODEL",
+          "shape": 7,
+          "link": null
+        },
+        {
+          "name": "face_boost",
+          "type": "FACE_BOOST",
+          "shape": 7,
+          "link": 27
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            41
+          ]
+        },
+        {
+          "name": "FACE_MODEL",
+          "type": "FACE_MODEL",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ReActorFaceSwap"
+      },
+      "widgets_values": [
+        true,
+        "inswapper_128.onnx",
+        "retinaface_resnet50",
+        "GFPGANv1.4.pth",
+        1,
+        1,
+        "no",
+        "no",
+        "0",
+        "0",
+        1
+      ]
+    },
+    {
+      "id": 9,
+      "type": "LoraLoader",
+      "pos": [
+        515,
+        130
+      ],
+      "size": [
+        315,
+        126
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 28
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 29
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            33
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            24
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoader"
+      },
+      "widgets_values": [
+        "AniVerse_flux_lora_01.safetensors",
+        1,
+        1
+      ]
+    },
+    {
+      "id": 10,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        100,
+        318
+      ],
+      "size": [
+        315,
+        98
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            28,
+            30
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            29
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            37
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "tertiumSDXLTurbo_v10.safetensors"
+      ]
+    },
+    {
+      "id": 18,
+      "type": "ReActorFaceBoost",
+      "pos": [
+        100,
+        546
+      ],
+      "size": [
+        315,
+        178
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "FACE_BOOST",
+          "type": "FACE_BOOST",
+          "links": [
+            27
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ReActorFaceBoost"
+      },
+      "widgets_values": [
+        true,
+        "GFPGANv1.4.pth",
+        "Bicubic",
+        1,
+        0.5,
+        false
+      ]
+    },
+    {
+      "id": 24,
+      "type": "SeargeSDXLImage2ImageSampler2",
+      "pos": [
+        1845,
+        130
+      ],
+      "size": [
+        390.5999755859375,
+        498
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "base_model",
+          "type": "MODEL",
+          "link": 30
+        },
+        {
+          "name": "base_positive",
+          "type": "CONDITIONING",
+          "link": 31
+        },
+        {
+          "name": "base_negative",
+          "type": "CONDITIONING",
+          "link": 32
+        },
+        {
+          "name": "refiner_model",
+          "type": "MODEL",
+          "link": 33
+        },
+        {
+          "name": "refiner_positive",
+          "type": "CONDITIONING",
+          "link": 34
+        },
+        {
+          "name": "refiner_negative",
+          "type": "CONDITIONING",
+          "link": 35
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 36
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 37
+        },
+        {
+          "name": "sampler_name",
+          "type": "SAMPLER_NAME",
+          "link": 38
+        },
+        {
+          "name": "scheduler",
+          "type": "SCHEDULER_NAME",
+          "link": 39
+        },
+        {
+          "name": "upscale_model",
+          "type": "UPSCALE_MODEL",
+          "shape": 7,
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            25,
+            42
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SeargeSDXLImage2ImageSampler2"
+      },
+      "widgets_values": [
+        275837602473864,
+        "randomize",
+        4,
+        1,
+        1,
+        0.88,
+        544,
+        944,
+        1,
+        0.6,
+        0
+      ]
+    },
+    {
+      "id": 26,
+      "type": "SeargeSamplerInputs",
+      "pos": [
+        100,
+        854
+      ],
+      "size": [
+        315,
+        102
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "sampler_name",
+          "type": "SAMPLER_NAME",
+          "links": [
+            38
+          ]
+        },
+        {
+          "name": "scheduler",
+          "type": "SCHEDULER_NAME",
+          "links": [
+            39
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SeargeSamplerInputs"
+      },
+      "widgets_values": [
+        "dpmpp_3m_sde_gpu",
+        "sgm_uniform"
+      ]
+    },
+    {
+      "id": 29,
+      "type": "SeargePreviewImage",
+      "pos": [
+        2750.60009765625,
+        130
+      ],
+      "size": [
+        315,
+        270
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "shape": 7,
+          "link": 41
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SeargePreviewImage"
+      },
+      "widgets_values": [
+        true
+      ]
+    },
+    {
+      "id": 32,
+      "type": "SeargePreviewImage",
+      "pos": [
+        2335.60009765625,
+        618
+      ],
+      "size": [
+        315,
+        270
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "shape": 7,
+          "link": 42
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SeargePreviewImage"
+      },
+      "widgets_values": [
+        true
+      ]
+    },
+    {
+      "id": 3,
+      "type": "CLIPTextEncode",
+      "pos": [
+        1345,
+        130
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 22
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            31,
+            34
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "arab man, far shot, 18k, best resolution,front facing shot"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "LoadWebcamImage",
+      "pos": [
+        100,
+        130
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            26,
+            36
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadWebcamImage"
+      },
+      "widgets_values": [
+        "C:\\Users\\Lapto\\Documents\\GitHub\\ComfyUI\\custom_nodes\\comfyui_toyxyz_test_nodes\\CaptureCam\\captured_frames/capture.jpg"
+      ]
+    }
+  ],
+  "links": [
+    [
+      22,
+      6,
+      0,
+      3,
+      0,
+      "CLIP"
+    ],
+    [
+      23,
+      6,
+      0,
+      4,
+      0,
+      "CLIP"
+    ],
+    [
+      24,
+      9,
+      1,
+      6,
+      0,
+      "CLIP"
+    ],
+    [
+      25,
+      24,
+      0,
+      8,
+      0,
+      "IMAGE"
+    ],
+    [
+      26,
+      5,
+      0,
+      8,
+      1,
+      "IMAGE"
+    ],
+    [
+      27,
+      18,
+      0,
+      8,
+      3,
+      "FACE_BOOST"
+    ],
+    [
+      28,
+      10,
+      0,
+      9,
+      0,
+      "MODEL"
+    ],
+    [
+      29,
+      10,
+      1,
+      9,
+      1,
+      "CLIP"
+    ],
+    [
+      30,
+      10,
+      0,
+      24,
+      0,
+      "MODEL"
+    ],
+    [
+      31,
+      3,
+      0,
+      24,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      32,
+      4,
+      0,
+      24,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      33,
+      9,
+      0,
+      24,
+      3,
+      "MODEL"
+    ],
+    [
+      34,
+      3,
+      0,
+      24,
+      4,
+      "CONDITIONING"
+    ],
+    [
+      35,
+      4,
+      0,
+      24,
+      5,
+      "CONDITIONING"
+    ],
+    [
+      36,
+      5,
+      0,
+      24,
+      6,
+      "IMAGE"
+    ],
+    [
+      37,
+      10,
+      2,
+      24,
+      7,
+      "VAE"
+    ],
+    [
+      38,
+      26,
+      0,
+      24,
+      8,
+      "SAMPLER_NAME"
+    ],
+    [
+      39,
+      26,
+      1,
+      24,
+      9,
+      "SCHEDULER_NAME"
+    ],
+    [
+      41,
+      8,
+      0,
+      29,
+      0,
+      "IMAGE"
+    ],
+    [
+      42,
+      24,
+      0,
+      32,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.4950000000000003,
+      "offset": [
+        155.83333333333252,
+        294.7373737373731
+      ]
+    },
+    "node_versions": {
+      "comfy-core": "0.3.18",
+      "comfyui-reactor": "d901609a1d5d1942a6b069b2f8f3778fee3a7134",
+      "SeargeSDXL": "2eb5edbc712329d77d1a2f5f1e6c5e64397a4a83",
+      "comfyui_toyxyz_test_nodes": "1.0.1"
+    }
+  },
+  "version": 0.4
+}

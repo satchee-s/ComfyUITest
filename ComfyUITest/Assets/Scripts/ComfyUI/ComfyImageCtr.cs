@@ -28,6 +28,10 @@ public class ComfyImageCtr : MonoBehaviour
 {
     public List<Texture2D> outputSprites = new List<Texture2D>();
     string fileName;
+    [SerializeField] RawImage m_preview;
+    [SerializeField] GameObject m_deviceCamera;
+    [SerializeField] GameObject m_previewPanel;
+    [SerializeField] GameObject m_loading;
 
     public void RequestFileName(string id)
     {
@@ -98,6 +102,7 @@ public class ComfyImageCtr : MonoBehaviour
                 Texture2D texture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture;
                 //Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
                 outputSprites.Add(texture);
+                SetPreviewImage();
             }
             else
             {
@@ -108,14 +113,14 @@ public class ComfyImageCtr : MonoBehaviour
 
     void SetPreviewImage()
     {
-        UIManagerPhotobooth.Instance.ToggleLoadingSpinner(false);
-        UIManagerPhotobooth.Instance.ToggleQRDownloadButton(true);
-        UIManagerPhotobooth.Instance.ToggleQRCodeImage(true);
-        UIManagerPhotobooth.Instance.GetPreviewImageSingle().GetComponent<RawImage>().texture = outputSprites[0];
+        m_preview.texture = outputSprites[0];
+        m_previewPanel.gameObject.SetActive(true);
+        m_deviceCamera.SetActive(false);
+        m_loading.SetActive(false);
     }
 
     public string GetFileName()
     {
         return fileName;
-    }    
+    }
 }

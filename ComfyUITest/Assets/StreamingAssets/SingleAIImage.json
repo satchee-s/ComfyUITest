@@ -1,7 +1,7 @@
 {
   "3": {
     "inputs": {
-      "text": "Pprompt, far shot, 18k, best resolution, cartoonistic, different head pose",
+      "text": "Pprompt, far shot, 18k, best resolution, cartoonistic",
       "clip": [
         "6",
         0
@@ -27,7 +27,7 @@
   },
   "5": {
     "inputs": {
-      "image_path": "C:/Users/Lapto/Documents/GitHub/ComfyUI/input/capture.jpg"
+      "image_path": "C:/Users/fajel/Desktop/Webcam Image/capture.jpg"
     },
     "class_type": "LoadWebcamImage",
     "_meta": {
